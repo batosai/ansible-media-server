@@ -1,0 +1,20 @@
+- name: Install nfs packages
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+
+- name: Mount nas folder
+  ansible.posix.mount:
+    name: "{{ nfs_mount_path }}"
+    src: "{{ nfs_source }}"
+    fstype: nfs
+    opts: "defaults"
+    state: mounted
+
+- name: Ensure /mnt/nas has correct permissions
+  ansible.builtin.file:
+    path: "{{ nfs_mount_path }}"
+    owner: jerem
+    group: jerem
+    state: directory
+    #mode: 0770
