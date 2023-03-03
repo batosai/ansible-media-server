@@ -4,14 +4,14 @@
     state: directory
     mode: '0777'
   with_items:
-    - "{{ nfs_mount_path }}/jellyfin/config"
-    #- "{{ nfs_mount_path }}/plex/config"
-    - "{{ nfs_mount_path }}/xteve/config"
+    - "{{ nfs_mount_services_path }}/jellyfin/config"
+    #- "{{ nfs_mount_services_path }}/plex/config"
+    - "{{ nfs_mount_services_path }}/xteve/config"
     - /opt/docker/volumes/plex/config
 
 #- name: Copy plex config default if not exist
 #  ansible.builtin.copy:
-#    src: "{{ nfs_mount_path }}/plex"
+#    src: "{{ nfs_mount_services_path }}/plex"
 #    dest: /opt/docker/volumes/plex
 #    remote_src: true
 #    force: false
@@ -22,8 +22,10 @@
     image: linuxserver/jellyfin:10.8.9
     restart_policy: unless-stopped
     volumes:
-      - "{{ nfs_mount_path }}/jellyfin/config:/config"
-      - "{{ nfs_mount_path }}:/data/nas"
+      - "{{ nfs_mount_services_path }}/jellyfin/config:/config"
+      - "{{ nfs_mount_services_path }}:/data/services"
+      - "{{ nfs_mount_music_path }}:/data/music"
+      - "{{ nfs_mount_video_path }}:/data/video"
     env:
       PUID: "1000"
       PGID: "1000"
@@ -41,7 +43,8 @@
     restart_policy: unless-stopped
     volumes:
       - /opt/docker/volumes/plex/config:/config
-      - "{{ nfs_mount_path }}:/data/nas"
+      - "{{ nfs_mount_services_path }}:/data/services"
+      - "{{ nfs_mount_video_path }}:/data/video"
     env:
       PUID: "1000"
       PGID: "1000"
@@ -50,6 +53,9 @@
       #PLEX_CLAIM: 
     ports:
       - 32400:32400
+    devices: 
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
 
 - name: Install XTeVe
   community.docker.docker_container:
@@ -58,8 +64,7 @@
     network_mode: host
     restart_policy: unless-stopped
     volumes:
-      - "{{ nfs_mount_path }}/xteve/config:/home/xteve/conf"
-      - "{{ nfs_mount_path }}:/data/nas"
+      - "{{ nfs_mount_services_path }}/xteve/config:/home/xteve/conf"
     env:
       TZ: Etc/UTC
     ports:

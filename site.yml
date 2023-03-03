@@ -8,9 +8,15 @@
   tasks:
     - include_tasks: tasks/nfs.yml
       vars:
-        nfs_source: "192.168.1.36:/volume1/test"
-        nfs_mount_path: "/mnt/nas"
+        nfs_services_source: "192.168.1.37:/volume1/services"
+        nfs_mount_services_path: "/mnt/services"
+        nfs_music_source: "192.168.1.37:/volume1/music"
+        nfs_mount_music_path: "/mnt/music"
+        nfs_video_source: "192.168.1.37:/volume1/video"
+        nfs_mount_video_path: "/mnt/video"
     - include_tasks: tasks/mediaplayers.yml
       vars:
-        nfs_mount_path: "/mnt/nas"
+        nfs_mount_services_path: "/mnt/services"
+        nfs_mount_music_path: "/mnt/music"
+        nfs_mount_video_path: "/mnt/video"
     - include_tasks: tasks/portainer.yml

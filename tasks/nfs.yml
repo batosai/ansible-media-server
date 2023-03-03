@@ -3,18 +3,42 @@
     name: nfs-common
     state: present
 
-- name: Mount nas folder
+- name: Mount services folder
   ansible.posix.mount:
-    name: "{{ nfs_mount_path }}"
-    src: "{{ nfs_source }}"
+    name: "{{ nfs_mount_services_path }}"
+    src: "{{ nfs_services_source }}"
     fstype: nfs
     opts: "defaults"
     state: mounted
 
-- name: Ensure /mnt/nas has correct permissions
+- name: Ensure /mnt/services has correct permissions
   ansible.builtin.file:
-    path: "{{ nfs_mount_path }}"
+    path: "{{ nfs_mount_services_path }}"
     owner: jerem
     group: jerem
     state: directory
     #mode: 0770
+
+- name: Mount music folder
+  ansible.posix.mount:
+    name: "{{ nfs_mount_music_path }}"
+    src: "{{ nfs_music_source }}"
+    fstype: nfs
+    opts: "defaults"
+    state: mounted
+
+# - name: Ensure /mnt/music has correct permissions
+#   ansible.builtin.file:
+#     path: "{{ nfs_mount_music_path }}"
+#     owner: jerem
+#     group: jerem
+#     state: directory
+#     #mode: 0770
+
+- name: Mount videos folder
+  ansible.posix.mount:
+    name: "{{ nfs_mount_video_path }}"
+    src: "{{ nfs_video_source }}"
+    fstype: nfs
+    opts: "defaults"
+    state: mounted
