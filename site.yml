@@ -14,9 +14,12 @@
         nfs_mount_music_path: "/mnt/music"
         nfs_video_source: "192.168.1.37:/volume1/video"
         nfs_mount_video_path: "/mnt/video"
+        nfs_book_source: "192.168.1.37:/volume1/book"
+        nfs_mount_book_path: "/mnt/book"
     - include_tasks: tasks/mediaplayers.yml
       vars:
         nfs_mount_services_path: "/mnt/services"
         nfs_mount_music_path: "/mnt/music"
         nfs_mount_video_path: "/mnt/video"
+        nfs_mount_book_path: "/mnt/book"
     - include_tasks: tasks/portainer.yml

@@ -42,3 +42,11 @@
     fstype: nfs
     opts: "defaults"
     state: mounted
+
+- name: Mount books folder
+  ansible.posix.mount:
+    name: "{{ nfs_mount_book_path }}"
+    src: "{{ nfs_book_source }}"
+    fstype: nfs
+    opts: "defaults"
+    state: mounted

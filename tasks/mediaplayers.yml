@@ -26,6 +26,7 @@
       - "{{ nfs_mount_services_path }}:/data/services"
       - "{{ nfs_mount_music_path }}:/data/music"
       - "{{ nfs_mount_video_path }}:/data/video"
+      - "{{ nfs_mount_book_path }}:/data/book"
     env:
       PUID: "1000"
       PGID: "1000"
